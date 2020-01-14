@@ -11,7 +11,7 @@ import dagger.Provides
 import retrofit2.Retrofit
 
 @Module
-class UserApiModule {
+class ApiModule {
 
     @Provides
     fun provideUserApi(retrofit: Retrofit): UserApi {

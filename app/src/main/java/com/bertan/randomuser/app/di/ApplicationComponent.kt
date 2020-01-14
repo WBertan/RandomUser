@@ -1,16 +1,18 @@
 package com.bertan.randomuser.app.di
 
-import com.bertan.randomuser.api.di.NetworkModule
-import com.bertan.randomuser.api.di.UserApiModule
+import com.bertan.randomuser.api.di.ApiModule
 import com.bertan.randomuser.app.RandomUserApplication
+import com.bertan.randomuser.feature.di.FeatureModule
+import com.bertan.randomuser.network.di.NetworkModule
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
 
 @Component(
     modules = [
         AndroidSupportInjectionModule::class,
-        ActivityModule::class,
-        UserApiModule::class,
+        AppModule::class,
+        ApiModule::class,
+        FeatureModule::class,
         NetworkModule::class
     ]
 )

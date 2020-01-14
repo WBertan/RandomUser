@@ -1,4 +1,4 @@
-package com.bertan.randomuser.api.di
+package com.bertan.randomuser.network.di
 
 import com.google.gson.GsonBuilder
 import dagger.Module
