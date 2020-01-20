@@ -3,6 +3,7 @@ package com.bertan.randomuser.feature.presentation.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.bertan.randomuser.api.domain.GetRandomUsersUseCase
 import com.bertan.randomuser.feature.presentation.view.data.Error
+import com.bertan.randomuser.feature.presentation.view.data.UserClickedDialog
 import com.bertan.randomuser.feature.presentation.view.data.UserViewData
 import com.bertan.randomuser.feature.presentation.viewmodel.mapper.UserViewDataMapper
 import com.nhaarman.mockitokotlin2.any
@@ -95,6 +96,20 @@ class UserListViewModelTest {
         val expectedResult = Error(error)
 
         viewModel.start()
+
+        assertNull(viewModel.viewData.value)
+        val result = viewModel.events.value
+        assertEquals(expectedResult, result)
+    }
+
+    @Test
+    fun whenOnItemClick_thenPostUserClickedDialogEvent() {
+        val expectedResult = UserClickedDialog(
+            title = "displayNameValue",
+            message = "The user email is:\nemailValue"
+        )
+
+        viewModel.onItemClick(defaultUserViewData)
 
         assertNull(viewModel.viewData.value)
         val result = viewModel.events.value
