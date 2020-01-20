@@ -10,12 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bertan.randomuser.R
+import com.bertan.randomuser.feature.presentation.view.adapter.UserAdapter
 import com.bertan.randomuser.feature.presentation.view.data.Error
 import com.bertan.randomuser.feature.presentation.view.data.UserViewData
 import com.bertan.randomuser.feature.presentation.view.data.UserViewEvent
 import com.bertan.randomuser.feature.presentation.viewmodel.UserListViewModel
 import com.bertan.randomuser.feature.presentation.viewmodel.UserListViewModelFactory
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.fragment_user_list.*
 import javax.inject.Inject
 
 class UserListFragment : Fragment() {
@@ -24,6 +26,8 @@ class UserListFragment : Fragment() {
     lateinit var factory: UserListViewModelFactory
 
     private val viewModel: UserListViewModel by viewModels { factory }
+
+    private val adapter: UserAdapter = UserAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,12 +46,12 @@ class UserListFragment : Fragment() {
         viewModel.viewData.observe(this, Observer(::onUserData))
         viewModel.events.observe(this, Observer(::onEvent))
         viewModel.start()
+
+        recyclerView.adapter = adapter
     }
 
     private fun onUserData(viewData: List<UserViewData>?) {
-        viewData?.let {
-            toast("onUserData: ${it.size}")
-        }
+        viewData?.let(adapter::setItems)
     }
 
     private fun onEvent(event: UserViewEvent) {
