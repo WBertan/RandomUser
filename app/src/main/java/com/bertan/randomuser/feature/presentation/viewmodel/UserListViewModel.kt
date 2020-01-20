@@ -30,7 +30,6 @@ class UserListViewModel(
             .map { it.map(userViewDataMapper::toViewData) }
             .subscribe(internalViewData::postValue) { internalEvents.postValue(Error(it)) }
             .let(compositeDisposable::add)
-
     }
 
     override fun onCleared() {
