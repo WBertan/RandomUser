@@ -1,13 +1,16 @@
 package com.bertan.randomuser.app.di
 
-import com.bertan.randomuser.app.MainActivity
+import com.bertan.randomuser.util.SchedulerProvider
+import com.bertan.randomuser.util.SchedulerProviderImpl
 import dagger.Module
-import dagger.android.ContributesAndroidInjector
+import dagger.Provides
 
 @Module
-abstract class AppModule {
+class AppModule {
 
-    @ContributesAndroidInjector
-    abstract fun bindMainActivity(): MainActivity
+    @Provides
+    fun provideSchedulerProvider(): SchedulerProvider {
+        return SchedulerProviderImpl()
+    }
 
 }

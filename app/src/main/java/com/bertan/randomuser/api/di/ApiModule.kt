@@ -6,6 +6,7 @@ import com.bertan.randomuser.api.domain.mapper.UserDataMapper
 import com.bertan.randomuser.api.repository.UserRepository
 import com.bertan.randomuser.api.repository.UserRepositoryImpl
 import com.bertan.randomuser.api.repository.network.UserApi
+import com.bertan.randomuser.util.SchedulerProvider
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -19,8 +20,11 @@ class ApiModule {
     }
 
     @Provides
-    fun provideUserRepository(userApi: UserApi): UserRepository {
-        return UserRepositoryImpl(userApi)
+    fun provideUserRepository(
+        userApi: UserApi,
+        schedulerProvider: SchedulerProvider
+    ): UserRepository {
+        return UserRepositoryImpl(userApi, schedulerProvider)
     }
 
     @Provides

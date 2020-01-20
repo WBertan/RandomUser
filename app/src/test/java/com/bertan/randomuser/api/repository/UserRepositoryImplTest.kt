@@ -2,6 +2,8 @@ package com.bertan.randomuser.api.repository
 
 import com.bertan.randomuser.api.repository.model.*
 import com.bertan.randomuser.api.repository.network.UserApi
+import com.bertan.randomuser.util.SchedulerProvider
+import com.bertan.randomuser.util.TestSchedulerProvider
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -12,12 +14,13 @@ import org.junit.Test
 class UserRepositoryImplTest {
 
     private val userApi: UserApi = mock()
+    private val schedulerProvider: SchedulerProvider = TestSchedulerProvider()
 
     private lateinit var repository: UserRepositoryImpl
 
     @Before
     fun setup() {
-        repository = UserRepositoryImpl(userApi)
+        repository = UserRepositoryImpl(userApi, schedulerProvider)
     }
 
     private fun mockSuccessApi(result: List<UserDto>) {
