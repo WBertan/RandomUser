@@ -10,7 +10,9 @@ import com.bertan.randomuser.feature.presentation.view.data.UserViewData
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.user_view_item.view.*
 
-class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class UserAdapter(
+    private val onItemClick: (UserViewData) -> Unit
+) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     private var items: List<UserViewData> = emptyList()
 
@@ -29,9 +31,11 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val userViewData = items[position]
         holder.itemView.run {
+            setOnClickListener { onItemClick(userViewData) }
+
             name.text = userViewData.displayName
             email.text = userViewData.email
-            imageView.setBackgroundColor(Color.parseColor(userViewData.backgroundColor))
+            card.setBackgroundColor(Color.parseColor(userViewData.backgroundColor))
 
             Glide.with(this)
                 .load(userViewData.thumbnail)

@@ -9,9 +9,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bertan.randomuser.R
 import com.bertan.randomuser.feature.presentation.view.adapter.UserAdapter
 import com.bertan.randomuser.feature.presentation.view.data.Error
+import com.bertan.randomuser.feature.presentation.view.data.UserClickedDialog
 import com.bertan.randomuser.feature.presentation.view.data.UserViewData
 import com.bertan.randomuser.feature.presentation.view.data.UserViewEvent
 import com.bertan.randomuser.feature.presentation.viewmodel.UserListViewModel
@@ -27,7 +30,7 @@ class UserListFragment : Fragment() {
 
     private val viewModel: UserListViewModel by viewModels { factory }
 
-    private val adapter: UserAdapter = UserAdapter()
+    private val adapter: UserAdapter by lazy { UserAdapter(viewModel::onItemClick) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +51,8 @@ class UserListFragment : Fragment() {
         viewModel.start()
 
         recyclerView.adapter = adapter
+        val divider = DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL)
+        recyclerView.addItemDecoration(divider)
     }
 
     private fun onUserData(viewData: List<UserViewData>?) {
@@ -56,13 +61,14 @@ class UserListFragment : Fragment() {
 
     private fun onEvent(event: UserViewEvent) {
         when (event) {
-            is Error -> toast(event.error.message)
+            is Error -> toast(message = event.message)
+            is UserClickedDialog -> toast(title = event.title, message = event.message)
         }
     }
 
-    private fun toast(message: String?) =
+    private fun toast(title: String? = null, message: String? = null) =
         AlertDialog.Builder(requireContext())
-            .setTitle(R.string.alert_title)
+            .setTitle(title ?: getString(R.string.alert_title))
             .setMessage(message ?: getString(R.string.alert_default_message))
             .setPositiveButton(R.string.ok, null)
             .show()

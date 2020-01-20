@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bertan.randomuser.api.domain.GetRandomUsersUseCase
 import com.bertan.randomuser.feature.presentation.view.data.Error
+import com.bertan.randomuser.feature.presentation.view.data.UserClickedDialog
 import com.bertan.randomuser.feature.presentation.view.data.UserViewData
 import com.bertan.randomuser.feature.presentation.view.data.UserViewEvent
 import com.bertan.randomuser.feature.presentation.viewmodel.mapper.UserViewDataMapper
@@ -30,6 +31,15 @@ class UserListViewModel(
             .map { it.map(userViewDataMapper::toViewData) }
             .subscribe(internalViewData::postValue) { internalEvents.postValue(Error(it)) }
             .let(compositeDisposable::add)
+    }
+
+    fun onItemClick(item: UserViewData) {
+        internalEvents.postValue(
+            UserClickedDialog(
+                title = item.displayName,
+                message = "The user email is:\n${item.email}"
+            )
+        )
     }
 
     override fun onCleared() {
