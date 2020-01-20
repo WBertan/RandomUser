@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">RandomUser</string>
+
+    <string name="alert_title">Warning</string>
+    <string name="alert_default_message">Some error!</string>
+    <string name="ok">OK</string>
 </resources>

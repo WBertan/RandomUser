@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -56,11 +56,15 @@ class UserListFragment : Fragment() {
 
     private fun onEvent(event: UserViewEvent) {
         when (event) {
-            is Error -> toast("onEvent: ${event.error}")
+            is Error -> toast(event.error.message)
         }
     }
 
-    private fun toast(message: String) =
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    private fun toast(message: String?) =
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.alert_title)
+            .setMessage(message ?: getString(R.string.alert_default_message))
+            .setPositiveButton(R.string.ok, null)
+            .show()
 
 }
